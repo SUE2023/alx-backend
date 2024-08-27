@@ -1,0 +1,5 @@
+msgid "home_title"
+msgstr "Bienvenue à Holberton"
+
+msgid "home_header"
+msgstr "Bonjour le monde"
