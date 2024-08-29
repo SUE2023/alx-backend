@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 # app.config.from_pyfile('mysettings.cfg')
 app.url_map.strict_slashes = False  # Reduce 404 with / on route
-babel = Babel(app)
+babel = Babel(app, locale_selector=get_locale)
 
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
@@ -57,15 +57,22 @@ def get_locale() -> str:
     3. Locale from request headers.
     4. Default locale.
     """
-    locale = request.args.get('locale', '')
-    if locale in app.config["LANGUAGES"]:
-        return locale
-    if g.user and g.user['locale'] in app.config["LANGUAGES"]:
+    # 1. Locale from URL parameters
+    queries = request.query_string.decode('utf-8').split('&')
+    query_table = dict(map(
+        lambda x: (x if '=' in x else '{}='.format(x)).split('='),
+        queries,
+    ))
+    if 'locale' in query_table and query_table['locale'] in \
+            app.config["LANGUAGES"]:
+        return query_table['locale']
+
+    # 2. Locale from user settings
+    if hasattr(g, 'user') and g.user.get('locale') in app.config['LANGUAGES']:
         return g.user['locale']
-    header_locale = request.headers.get('locale', '')
-    if header_locale in app.config["LANGUAGES"]:
-        return header_locale
-    return request.accept_languages.best_match(app.config["LANGUAGES"])
+
+    # 3. Locale from request headers
+    return request.accept_languages.best_match(app.config['LANGUAGE'])
 
 
 @app.route('/')

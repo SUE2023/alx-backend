@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 # app.config.from_pyfile('mysettings.cfg')
 app.url_map.strict_slashes = False  # Reduce 404 with / on route
-babel = Babel(app, locale_selector=get_locale)
+babel = Babel(app)
 
 
 @babel.localeselector
