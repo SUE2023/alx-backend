@@ -4,7 +4,6 @@
 from flask import Flask, render_template, g, request
 from flask_babel import Babel
 from typing import Union, Dict
-import pytz
 
 
 class Config:
@@ -18,7 +17,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 # app.config.from_pyfile('mysettings.cfg')
 app.url_map.strict_slashes = False  # Reduce 404 with / on route
-babel = Babel(app, locale_selector=get_locale)
+babel = Babel(app)
 
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
@@ -58,22 +57,15 @@ def get_locale() -> str:
     3. Locale from request headers.
     4. Default locale.
     """
-    # 1. Locale from URL parameters
-    queries = request.query_string.decode('utf-8').split('&')
-    query_table = dict(map(
-        lambda x: (x if '=' in x else '{}='.format(x)).split('='),
-        queries,
-    ))
-    if 'locale' in query_table and query_table['locale'] in \
-            app.config["LANGUAGES"]:
-        return query_table['locale']
-
-    # 2. Locale from user settings
-    if hasattr(g, 'user') and g.user.get('locale') in app.config['LANGUAGES']:
+    locale = request.args.get('locale', '')
+    if locale in app.config["LANGUAGES"]:
+        return locale
+    if g.user and g.user['locale'] in app.config["LANGUAGES"]:
         return g.user['locale']
-
-    # 3. Locale from request headers
-    return request.accept_languages.best_match(app.config['LANGUAGE'])
+    header_locale = request.headers.get('locale', '')
+    if header_locale in app.config["LANGUAGES"]:
+        return header_locale
+    return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
 @babel.timezoneselector
@@ -90,8 +82,8 @@ def get_timezone() -> str:
 
 @app.route('/')
 def index() -> str:
-    """Index Page """
-    return render_template('index.html')
+    """Home Page """
+    return render_template('6-index.html')
 
 
 if __name__ == "__main__":
