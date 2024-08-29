@@ -1,7 +1,7 @@
 # English translations for PROJECT.
 # Copyright (C) 2024 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# SUSAN SEWE <susansewe@gmail.com>, 2024.
 #
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-08-27 18:56+0000\n"
 "PO-Revision-Date: 2024-08-27 18:56+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: SUSAN SEWE <susansewe@gmail.com>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -18,3 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
+msgid "home_title"
+msgstr "Welcome to Holberton"
+
+msgid "home_header"
+msgstr "Hello world!"
