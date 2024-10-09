@@ -1,0 +1,17 @@
+# Download, extract, and compile the latest stable Redis version (higher than 5.0.7 - https://redis.io/downloads/):
+wget http://download.redis.io/releases/redis-6.0.10.tar.gz
+tar xzf redis-6.0.10.tar.gz
+cd redis-6.0.10
+make
+
+#Start Redis in the background with src/redis-server
+src/redis-server &
+
+# Confirm  the server is working with a ping src/redis-cli ping. Will print PONG
+src/redis-cli ping
+
+# To connect . Result will be 127.0.0.1:[Port]> 
+src/redis-cli
+
+# Now us redis commands to perform operations example set value of School to Holberton
+127.0.0.1:[Port]> set Holberton School
